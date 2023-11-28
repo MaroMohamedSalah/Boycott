@@ -3,6 +3,10 @@ body {
 	font-family: "Archivo", sans-serif;
 }
 
+button {
+	background-color: #687c97 !important;
+}
+
 a {
 	text-decoration: none;
 	color: inherit;
