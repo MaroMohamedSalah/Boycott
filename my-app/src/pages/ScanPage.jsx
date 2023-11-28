@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { getCountry } from "../services/ScannerServices";
 import Scanner from "../components/Scanner";
 import Nav from "../components/Nav";
 import Footer from "../components/Footer";
@@ -14,10 +13,12 @@ import {
 	Divider,
 	TextField,
 } from "@mui/material";
+import { isBoycottOrNot } from "../services/ScannerServices";
 
 const ScanPage = () => {
 	const [camera, setCamera] = useState(false);
 	const [result, setResult] = useState(null);
+	const [showResult, setShowResult] = useState(false);
 
 	const onDetected = (result) => {
 		setResult(result);
@@ -47,24 +48,50 @@ const ScanPage = () => {
 				<Dialog
 					className="scanPopup"
 					open={camera}
-					onClose={() => setCamera(false)}
+					onClose={() => setCamera(null)}
 					aria-labelledby="alert-dialog-title"
 					aria-describedby="alert-dialog-description"
 				>
 					<DialogTitle id="alert-dialog-title">{"Scan the code"}</DialogTitle>
 					<DialogContent>
 						<DialogContentText id="alert-dialog-slide-description">
-							Code: {result ? result : "Scanning"}
+							Code: {result ? result : "Scanning.."}
 						</DialogContentText>
 						{camera && <Scanner onDetected={onDetected} />}
 					</DialogContent>
 					<DialogActions>
-						<Button className="text-white" onClick={() => setCamera(false)}>
+						<Button className="text-white" onClick={() => setCamera(null)}>
+							Cancel
+						</Button>
+						<Button className="text-white" onClick={() => setShowResult(true)}>
+							Confirm
+						</Button>
+					</DialogActions>
+				</Dialog>
+				<Dialog
+					className="Result"
+					open={showResult}
+					onClose={() => setShowResult(false)}
+					aria-labelledby="alert-dialog-title"
+					aria-describedby="alert-dialog-description"
+				>
+					<DialogTitle id="alert-dialog-title">{"Scan the code"}</DialogTitle>
+					<DialogContent>
+						<DialogContentText id="alert-dialog-slide-description">
+							<h1>
+								{result && isBoycottOrNot(result)
+									? "Boycott"
+									: "Not Boycott ❤️"}
+							</h1>
+						</DialogContentText>
+					</DialogContent>
+					<DialogActions>
+						{/* <Button className="text-white" onClick={() => setCamera(false)}>
 							Cancel
 						</Button>
 						<Button className="text-white" onClick={() => setCamera(false)}>
 							Confirm
-						</Button>
+						</Button> */}
 					</DialogActions>
 				</Dialog>
 			</div>
