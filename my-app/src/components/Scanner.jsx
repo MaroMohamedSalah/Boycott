@@ -7,8 +7,8 @@ const Scanner = ({ onDetected }) => {
 		inputStream: {
 			type: "LiveStream",
 			constraints: {
-				width: { min: 450 },
-				height: { min: 300 },
+				width: "100%",
+				// height: { min: 300 },
 				facingMode: "environment",
 				aspectRatio: { min: 1, max: 2 },
 			},
@@ -97,7 +97,7 @@ const Scanner = ({ onDetected }) => {
 		// If you do not specify a target,
 		// QuaggaJS would look for an element that matches
 		// the CSS selector #interactive.viewport
-		<div id="interactive" className="viewport" />
+		<div id="interactive" className="viewport w-100" />
 	);
 };
 Scanner.propTypes = {

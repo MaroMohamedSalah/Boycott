@@ -1,0 +1,11 @@
+.ScanPage input {
+	background-color: #687c97 !important;
+}
+
+.scanPopup video,
+.scanPopup canvas {
+	width: 100%;
+}
+.scanPopup canvas {
+	position: absolute;
+}
