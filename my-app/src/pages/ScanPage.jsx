@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { getCountry } from "./services/ScannerServices";
-import Scanner from "./components/Scanner";
+import { getCountry } from "../services/ScannerServices";
+import Scanner from "../components/Scanner";
+import "./scanPage.css";
 
 const ScanPage = () => {
 	const [camera, setCamera] = useState(false);
