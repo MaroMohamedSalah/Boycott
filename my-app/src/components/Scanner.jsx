@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import Quagga from "quagga";
+import PropTypes from "prop-types";
 
 const Scanner = ({ onDetected }) => {
 	const config = {
@@ -98,6 +99,9 @@ const Scanner = ({ onDetected }) => {
 		// the CSS selector #interactive.viewport
 		<div id="interactive" className="viewport" />
 	);
+};
+Scanner.propTypes = {
+	onDetected: PropTypes.func.isRequired,
 };
 
 export default Scanner;
