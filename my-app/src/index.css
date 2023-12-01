@@ -3,7 +3,7 @@ body {
 	font-family: "Archivo", sans-serif;
 }
 
-button {
+button:not(.css-1e6y48t-MuiButtonBase-root-MuiButton-root.Mui-disabled) {
 	background-color: #687c97 !important;
 }
 

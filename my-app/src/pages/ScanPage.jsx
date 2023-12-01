@@ -11,17 +11,17 @@ import {
 	DialogContentText,
 	DialogTitle,
 	Divider,
-	TextField,
 } from "@mui/material";
 import { isBoycottOrNot } from "../services/ScannerServices";
+import WriteCode from "../components/WriteCode";
 
 const ScanPage = () => {
 	const [camera, setCamera] = useState(false);
-	const [result, setResult] = useState(null);
+	const [code, setCode] = useState(null);
 	const [showResult, setShowResult] = useState(false);
 
 	const onDetected = (result) => {
-		setResult(result);
+		setCode(result);
 	};
 	return (
 		<div className="ScanPage h-100">
@@ -38,12 +38,7 @@ const ScanPage = () => {
 						Scan
 					</Button>
 					<Divider className="my-3">OR</Divider>
-					<TextField
-						id="filled-basic"
-						label="Write the Barcode Here"
-						variant="filled"
-						fullWidth
-					/>
+					<WriteCode setCode={setCode} setShowResult={setShowResult} />
 				</div>
 				<Dialog
 					className="scanPopup"
@@ -55,7 +50,7 @@ const ScanPage = () => {
 					<DialogTitle id="alert-dialog-title">{"Scan the code"}</DialogTitle>
 					<DialogContent>
 						<DialogContentText id="alert-dialog-slide-description">
-							Code: {result ? result : "Scanning.."}
+							Code: {code ? code : "Scanning.."}
 						</DialogContentText>
 						{camera && <Scanner onDetected={onDetected} />}
 					</DialogContent>
@@ -75,13 +70,11 @@ const ScanPage = () => {
 					aria-labelledby="alert-dialog-title"
 					aria-describedby="alert-dialog-description"
 				>
-					<DialogTitle id="alert-dialog-title">{"Scan the code"}</DialogTitle>
+					<DialogTitle id="alert-dialog-title">{"The Result"}</DialogTitle>
 					<DialogContent>
 						<DialogContentText id="alert-dialog-slide-description">
 							<h1>
-								{result && isBoycottOrNot(result)
-									? "Boycott"
-									: "Not Boycott ❤️"}
+								{code && isBoycottOrNot(code) ? "Boycott" : "Not Boycott ❤️"}
 							</h1>
 						</DialogContentText>
 					</DialogContent>
