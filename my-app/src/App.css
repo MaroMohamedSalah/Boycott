@@ -19,7 +19,7 @@
 	bottom: 0;
 	pointer-events: none; /* Allow clicks to pass through the overlay */
 	/* Background image settings */
-	background: url("/src/assets/main-bg.png");
+	background: url("./assets/main-bg.jpg");
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-position-x: center;
