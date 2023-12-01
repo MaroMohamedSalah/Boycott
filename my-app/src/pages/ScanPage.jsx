@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Scanner from "../components/Scanner";
 import Nav from "../components/Nav";
 import Footer from "../components/Footer";
 import "./scanPage.css";
 import {
+	Backdrop,
 	Button,
+	CircularProgress,
 	Dialog,
 	DialogActions,
 	DialogContent,
@@ -12,17 +14,54 @@ import {
 	DialogTitle,
 	Divider,
 } from "@mui/material";
-import { isBoycottOrNot } from "../services/ScannerServices";
+import { getItemDetails, isBoycott } from "../services/ScannerServices";
 import WriteCode from "../components/WriteCode";
+import ProductDetails from "../components/ProductDetails";
 
 const ScanPage = () => {
 	const [camera, setCamera] = useState(false);
 	const [code, setCode] = useState(null);
+	const [result, setResult] = useState(null);
 	const [showResult, setShowResult] = useState(false);
+	const [itemDetails, setItemDetails] = useState([]);
+	const [loading, setLoading] = useState(false);
 
 	const onDetected = (result) => {
 		setCode(result);
 	};
+
+	const handleGetResult = async (code) => {
+		if (isBoycott(code)) {
+			setResult("Boycott");
+			setShowResult(true);
+			try {
+				const details = await getItemDetails(code, setLoading);
+				setItemDetails(details);
+			} catch (error) {
+				console.error("Error getting item details:", error);
+				setItemDetails([]);
+			}
+		} else {
+			setResult("Not Boycott ❤️");
+			setShowResult(true);
+			setLoading(false);
+		}
+	};
+	// const handleGetResult = (code) => {
+	// 	// isBoycott(code) ? "Boycott" : "Not Boycott ❤️";
+	// 	if (isBoycott(code)) {
+	// 		setResult("Boycott");
+	// 		setShowResult(true);
+	// 		setItemDetails(getItemDetails(code), setLoading);
+	// 	} else {
+	// 		setResult("Not Boycott ❤️");
+	// 		setShowResult(true);
+	// 	}
+	// };
+
+	useEffect(() => {
+		console.log(itemDetails);
+	}, [itemDetails]);
 	return (
 		<div className="ScanPage h-100">
 			<Nav />
@@ -38,7 +77,7 @@ const ScanPage = () => {
 						Scan
 					</Button>
 					<Divider className="my-3">OR</Divider>
-					<WriteCode setCode={setCode} setShowResult={setShowResult} />
+					<WriteCode setCode={setCode} handleGetResult={handleGetResult} />
 				</div>
 				<Dialog
 					className="scanPopup"
@@ -58,7 +97,10 @@ const ScanPage = () => {
 						<Button className="text-white" onClick={() => setCamera(null)}>
 							Cancel
 						</Button>
-						<Button className="text-white" onClick={() => setShowResult(true)}>
+						<Button
+							className="text-white"
+							onClick={() => handleGetResult(code)}
+						>
 							Confirm
 						</Button>
 					</DialogActions>
@@ -69,22 +111,38 @@ const ScanPage = () => {
 					onClose={() => setShowResult(false)}
 					aria-labelledby="alert-dialog-title"
 					aria-describedby="alert-dialog-description"
+					fullWidth
+					maxWidth={"xl"}
 				>
 					<DialogTitle id="alert-dialog-title">{"The Result"}</DialogTitle>
 					<DialogContent>
 						<DialogContentText id="alert-dialog-slide-description">
-							<h1>
-								{code && isBoycottOrNot(code) ? "Boycott" : "Not Boycott ❤️"}
-							</h1>
+							<h1>{result && result}</h1>
+						</DialogContentText>
+					</DialogContent>
+					<Divider />
+					<DialogContent>
+						<DialogContentText id="alert-dialog-slide-description">
+							<div className="itemDetails">
+								{loading ? (
+									<Backdrop
+										sx={{
+											color: "#fff",
+											zIndex: (theme) => theme.zIndex.drawer + 1,
+										}}
+										open={loading}
+									>
+										<CircularProgress color="inherit" />
+									</Backdrop>
+								) : (
+									itemDetails && <ProductDetails details={itemDetails} />
+								)}
+							</div>
 						</DialogContentText>
 					</DialogContent>
 					<DialogActions>
-						{/* <Button className="text-white" onClick={() => setCamera(false)}>
-							Cancel
-						</Button>
-						<Button className="text-white" onClick={() => setCamera(false)}>
-							Confirm
-						</Button> */}
+						<Button className="text-white">Help Us</Button>
+						<Button className="text-white">Alternatives</Button>
 					</DialogActions>
 				</Dialog>
 			</div>

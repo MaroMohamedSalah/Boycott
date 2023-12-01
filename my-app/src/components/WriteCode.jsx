@@ -2,13 +2,13 @@ import { Button, TextField } from "@mui/material";
 import PropTypes from "prop-types";
 import { useState } from "react";
 
-const WriteCode = ({ setCode, setShowResult }) => {
+const WriteCode = ({ setCode, handleGetResult }) => {
 	const [writtenCode, setWrittenCode] = useState(null);
 
 	const handleShowResult = () => {
 		if (writtenCode) {
 			setCode(writtenCode);
-			setShowResult(true);
+			handleGetResult(writtenCode);
 		}
 	};
 
@@ -36,7 +36,7 @@ const WriteCode = ({ setCode, setShowResult }) => {
 // PropTypes
 WriteCode.propTypes = {
 	setCode: PropTypes.func.isRequired,
-	setShowResult: PropTypes.func.isRequired,
+	handleGetResult: PropTypes.func.isRequired,
 };
 
 export default WriteCode;
