@@ -47,17 +47,6 @@ const ScanPage = () => {
 			setLoading(false);
 		}
 	};
-	// const handleGetResult = (code) => {
-	// 	// isBoycott(code) ? "Boycott" : "Not Boycott ❤️";
-	// 	if (isBoycott(code)) {
-	// 		setResult("Boycott");
-	// 		setShowResult(true);
-	// 		setItemDetails(getItemDetails(code), setLoading);
-	// 	} else {
-	// 		setResult("Not Boycott ❤️");
-	// 		setShowResult(true);
-	// 	}
-	// };
 
 	useEffect(() => {
 		console.log(itemDetails);
@@ -142,7 +131,17 @@ const ScanPage = () => {
 					</DialogContent>
 					<DialogActions>
 						<Button className="text-white">Help Us</Button>
-						<Button className="text-white">Alternatives</Button>
+						<Button
+							className="text-white"
+							onClick={() =>
+								window.open(
+									"https://palestine-market-e-commerce.vercel.app/",
+									"_blank"
+								)
+							}
+						>
+							Alternatives
+						</Button>
 					</DialogActions>
 				</Dialog>
 			</div>

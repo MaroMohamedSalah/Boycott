@@ -7,6 +7,7 @@ const Home = () => {
 	return (
 		<div className="Home h-100">
 			<Nav />
+
 			<div className="h-50">
 				<div className="container h-100 d-flex justify-content-center align-items-center my-5">
 					<Link to={"./scan"} className="w-100">
